@@ -33,4 +33,26 @@ class Product{
         return json_encode($results);
     }
 
+    public function readOne() {
+
+        // select the data
+        $query = "SELECT p.id, p.name, p.description, p.price, c.name as category_name  
+            FROM " . $this->table_name . " p 
+            LEFT JOIN categories c
+            ON p.category_id = c.id
+            WHERE p.id = :id";
+
+            // prepare the query for execution
+            $stmt = $this->conn->prepare($query);
+
+            $id = htmlspecialchars(strip_tags($this->id));
+            $stmt->bindParam(':id', $id);
+
+            $stmt->execute();
+
+            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            return json_encode($results);
+    }
+
 }

@@ -139,4 +139,22 @@ class Product{
         }
     }
 
+    // delete product function
+    public function delete($id) {
+
+        // query to delete a record from the db
+        $query = "DELETE FROM products WHERE id=:id";
+
+        $stmt = $this->conn->prepare($query);
+
+        // sanitize
+        $id = htmlspecialchars(strip_tags($id));
+
+        // bind the parameter
+        $stmt->bindParam(':id', $id);
+
+        // execute
+        $stmt->execute() ? true : false;
+    }
+
 }

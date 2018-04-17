@@ -103,4 +103,40 @@ class Product{
             return json_encode($results);
     }
 
+    // Update product function
+    public function update() {
+
+        // update product based on id
+        $query = "UPDATE products
+                    SET name=:name, 
+                        description=:description, 
+                        price=:price,
+                        category_id=:category_id, 
+                    WHERE id=:id";
+        
+        // prepare statement
+        $stmt = $this->conn->prepare($query);
+        
+        // sanitize
+        $name = htmlspecialchars(strip_tags($this->name));
+        $price = htmlspecialchars(strip_tags($this->price));
+        $description = htmlspecialchars(strip_tags($this->description));
+        $category_id = htmlspecialchars(strip_tags($this->category_id));
+        $id = htmlspecialchars(strip_tags($this->id));
+
+        // bind the parameters
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':price', $price);
+        $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':category_id', $category_id);
+        $stmt->bindParam(':id', $id);
+
+        // execute the query
+        if($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

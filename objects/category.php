@@ -100,4 +100,33 @@ class Category
 
         return json_encode($results);
     }
+
+    // update category function
+    public function update($id)
+    {
+        // update category based on id
+        $query = "UPDATE {$this->table_name}
+                    SET name=:name,
+                        description=:description
+                    WHERE id=:id";
+        // prepare the statement
+        $stmt = $this->conn->prepare($query);
+
+        // sanitize
+        $name = htmlspecialchars(strip_tags($this->name));
+        $description = htmlspecialchars(strip_tags($this->description));
+        $id = htmlspecialchars(strip_tags($id));
+
+        // bind the parameters
+        $stmt->bindParam(':name', $name);
+        $stmt->bindParam(':description', $description);
+        $stmt->bindParam(':id', $id);
+
+        // execute the query
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

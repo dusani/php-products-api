@@ -18,7 +18,9 @@ class Category {
     // Read all categories function
     public function readALL() {
         // select all data
-        $query = "SELECT * FROM {$this->table_name} ORDER BY id ASC";
+        $query = "SELECT *
+                    FROM {$this->table_name} 
+                    ORDER BY id ASC";
 
         // prepare the query for execution
         $stmt = $this->conn->prepare($query);
@@ -34,7 +36,9 @@ class Category {
     // Read one category function
     public function readOne($id) {
         // select the data
-        $query = "SELECT * FROM {$this->table_name} WHERE id=:id";
+        $query = "SELECT *
+                    FROM {$this->table_name}
+                    WHERE id=:id";
 
         // prepare the query for execution
         $stmt = $this->conn->prepare($query);

@@ -101,7 +101,7 @@ class Category
         return json_encode($results);
     }
 
-    // update category function
+    //---- update category function ----//
     public function update($id)
     {
         // update category based on id
@@ -123,6 +123,30 @@ class Category
         $stmt->bindParam(':id', $id);
 
         // execute the query
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    //---- delete category function ----//
+    public function delete($id)
+    {
+        // query to delete a record from the db
+        $query = "DELETE FROM {$this->table_name}
+                    WHERE id=:id";
+
+        // prepare the statement
+        $stmt = $this->conn->prepare($query);
+
+        // sanitize
+        $id = htmlspecialchars(strip_tags($id));
+
+        // bind the parameter
+        $stmt->bindParam(':id', $id);
+
+        // execute
         if ($stmt->execute()) {
             return true;
         } else {

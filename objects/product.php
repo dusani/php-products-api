@@ -1,6 +1,7 @@
 <?php
 
-class Product{
+class Product
+{
     // database connection and table name
     private $conn;
     private $table_name = 'products';
@@ -13,25 +14,27 @@ class Product{
     public $category_id;
     public $timestamp;
 
-    public function __construct($db) {
+    public function __construct($db)
+    {
         $this->conn = $db;
     }
 
 
     // Create product function
-    public function create() {
+    public function create()
+    {
         try {
             // insert query
             $query = "INSERT INTO products
-                SET name=:name, 
-                    description=:description, 
+                SET name=:name,
+                    description=:description,
                     price=:price,
-                    category_id=:category_id, 
+                    category_id=:category_id,
                     created=:created";
 
             // prepare statement
             $stmt = $this->conn->prepare($query);
-            
+
             // sanitize
             $name = htmlspecialchars(strip_tags($this->name));
             $price = htmlspecialchars(strip_tags($this->price));
@@ -48,26 +51,26 @@ class Product{
             // also, to comply with strict standards: only variables should be passed
             // by reference
             $created = date('Y-m-d H:i:s');
-            $stmt->bindParams(':created', $created);
+            $stmt->bindParam(':created', $created);
 
             // execute the query
-            if($stmt->execute()) {
+            if ($stmt->execute()) {
                 return true;
             } else {
                 return false;
             }
-
         } // Show error if any
-        catch(PDOException $exception) {
+        catch (PDOException $exception) {
             die('ERROR: ' . $exception->getMessage());
         }
     }
 
     // Return all products function
-    public function readAll() {
+    public function readAll()
+    {
         // select all data
-        $query = "SELECT p.id, p.name, p.description, p.price, c.name as category_name  
-            FROM " . $this->table_name . " p 
+        $query = "SELECT p.id, p.name, p.description, p.price, c.name as category_name
+            FROM " . $this->table_name . " p
             LEFT JOIN categories c
             ON p.category_id = c.id
             ORDER BY id DESC";
@@ -81,42 +84,44 @@ class Product{
     }
 
     // Return one product function
-    public function readOne() {
+    public function readOne()
+    {
 
         // select the data
-        $query = "SELECT p.id, p.name, p.description, p.price, c.name as category_name  
-            FROM " . $this->table_name . " p 
+        $query = "SELECT p.id, p.name, p.description, p.price, c.name as category_name
+            FROM " . $this->table_name . " p
             LEFT JOIN categories c
             ON p.category_id = c.id
             WHERE p.id = :id";
 
-            // prepare the query for execution
-            $stmt = $this->conn->prepare($query);
+        // prepare the query for execution
+        $stmt = $this->conn->prepare($query);
 
-            $id = htmlspecialchars(strip_tags($this->id));
-            $stmt->bindParam(':id', $id);
+        $id = htmlspecialchars(strip_tags($this->id));
+        $stmt->bindParam(':id', $id);
 
-            $stmt->execute();
+        $stmt->execute();
 
-            $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
+        $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            return json_encode($results);
+        return json_encode($results);
     }
 
     // Update product function
-    public function update() {
+    public function update($id)
+    {
 
         // update product based on id
-        $query = "UPDATE products
-                    SET name=:name, 
-                        description=:description, 
+        $query = "UPDATE {$this->table_name}
+                    SET name=:name,
+                        description=:description,
                         price=:price,
-                        category_id=:category_id, 
+                        category_id=:category_id
                     WHERE id=:id";
-        
+
         // prepare statement
         $stmt = $this->conn->prepare($query);
-        
+
         // sanitize
         $name = htmlspecialchars(strip_tags($this->name));
         $price = htmlspecialchars(strip_tags($this->price));
@@ -132,7 +137,7 @@ class Product{
         $stmt->bindParam(':id', $id);
 
         // execute the query
-        if($stmt->execute()) {
+        if ($stmt->execute()) {
             return true;
         } else {
             return false;
@@ -140,7 +145,8 @@ class Product{
     }
 
     // delete product function
-    public function delete($id) {
+    public function delete($id)
+    {
 
         // query to delete a record from the db
         $query = "DELETE FROM products WHERE id=:id";
@@ -156,5 +162,4 @@ class Product{
         // execute
         $stmt->execute() ? true : false;
     }
-
 }

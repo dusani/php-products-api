@@ -1,13 +1,37 @@
-<h3 class="card-title text-center">${product['name']}</h3>
-<p class="card-text"><strong>Description: </strong>${product['description']}</p>
-<p class="card-text"><strong>Price: </strong>$${product['price']}</p>
-<p class="card-text"><strong>Category: </strong>${product['category_name']}</p>
+<div class="modal" id="editModal-${product['id']}">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
-<table class="table">
-    <tbody>
-        <tr>
-            <th scope="row">Description</th>
-            <td>${product['description']}</td>
-        </tr>
-    </tbody>
-</table>
+            <div class="modal-header">
+                <h2 class="modal-title">Edit Product</h2>
+                <button class="close" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <form method="post">
+                    <div class="form-group">
+                        <label for="name">Product Name</label>
+                        <input type="text" class="form-control" id="name" value="${product['name']}">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Description</label>
+                        <input type="text" class="form-control" id="description" value="${product['description']}">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Price</label>
+                        <input type="text" class="form-control" id="price" value="${product['price']}">
+                    </div>
+                    <div class="form-group">
+                        <label for="name">Category</label>
+                        <select class="form-control select-options" id="category_name">
+
+                        </select>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-primary">Update</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

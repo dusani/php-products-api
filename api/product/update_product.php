@@ -24,5 +24,5 @@ if ($_POST) {
     $product->id = $_POST['id'];
 
     // create the product
-    echo $product->update() ? 'Product was updated' : 'Update failed';
+    echo $product->update($product->id) ? 'Product was updated' : 'Update failed';
 }

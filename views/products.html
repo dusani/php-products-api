@@ -10,20 +10,28 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="./client/css/styles.css">
+    <link rel="stylesheet" href="../client/css/styles.css">
 
     <title>Products API</title>
 </head>
 
-<body class="text-center">
-    <form class="form-signin" id="loginForm">
-        <button class="btn btn-lg btn-primary btn-block" data-target="views/products.html" id="viewProducts" type="submit">View Products</button>
-    </form>
+<body>
+    <div class="container">
+        <div class="row mb-5">
+            <div class="col-4">
+                <div class="list-group mb-5 products-1" id="list-tab" role="tablist"></div>
+            </div>
+
+            <div class="col-8">
+                <div class="tab-content products-2" id="nav-tabContent"></div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    <script src="./client/js/main.js"></script>
+    <script src="../client/js/main.js"></script>
 </body>
 
 </html>

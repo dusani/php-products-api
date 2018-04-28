@@ -1,0 +1,17 @@
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #f5f5f5;
+}
+
+.table-borderless th, .table-borderless td {
+    border: none;
+    border-bottom: 1px solid #F2F2F2;
+}

@@ -1,15 +1,16 @@
 $(document).ready(function() {
-    let getAllProductURL = 'http://localhost/products-api/api/product/read_all_products.php';
-    let createProductURL = 'http://localhost/products-api/api/product/create_product.php';
-    let updateProductURL = 'http://localhost/products-api/api/product/update_product.php';
+    let getAllProductURL = "http://localhost/products-api/api/product/read_all_products.php";
+    let createProductURL = "http://localhost/products-api/api/product/create_product.php";
+    let updateProductURL = "http://localhost/products-api/api/product/update_product.php";
+    let deleteProductURL = "http://localhost/products-api/api/product/delete_product.php";
 
-    let getAllCategoryURL = 'http://localhost/products-api/api/category/read_all_categories.php';
+    let getAllCategoryURL = "http://localhost/products-api/api/category/read_all_categories.php";
 
     // Redirect to products.html page
-    $('#viewProducts').on('click', function(e) {
+    $("#viewProducts").on("click", function(e) {
         e.preventDefault();
 
-        let url = $(this).data('target');
+        let url = $(this).data("target");
         console.log(url);
 
         location.replace(url);
@@ -20,57 +21,59 @@ $(document).ready(function() {
         $.ajax({
             url: getAllProductURL
         }).done(function(products) {
-            let result_1 = '';
-            let result_2 = '';
+            let result_1 = "";
+            let result_2 = "";
 
             $.each(JSON.parse(products), function(key, product) {
                 // console.log(product);
                 result_1 += `
                     <a class="list-group-item list-group-item-action" id="list-${
-                        product['id']
-                    }-list" href="#list-${product['id']}" data-toggle="list">${
-                    product['name']
+                        product["id"]
+                    }-list" href="#list-${product["id"]}" data-toggle="list">${
+                    product["name"]
                 }</a>
                 `;
 
                 result_2 += `
                     <div class="tab-pane fade" id="list-${
-                        product['id']
-                    }" role="tabpanel">
+                        product["id"]
+                    }"role="tabpanel">
                         <div class="card">
                             <div class="card-body">
                                 <table class="table table-borderless">
                                     <tbody>
                                         <tr>
                                             <th scope="row">Product Name</th>
-                                            <td>${product['name']}</td>
+                                            <td>${product["name"]}</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Description</th>
-                                            <td>${product['description']}</td>
+                                            <td>${product["description"]}</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Price</th>
-                                            <td>$${product['price']}</td>
+                                            <td>$${product["price"]}</td>
                                         </tr>
                                         <tr>
                                             <th scope="row">Category</th>
-                                            <td>${product['category_name']}</td>
+                                            <td>${product["category_name"]}</td>
                                         </tr>
                                     </tbody>
                                 </table>
 
                                 <div class="d-flex justify-content-between">
                                     <a href="#" class="btn btn-success" data-toggle="modal" data-target="#editModal-${
-                                        product['id']
+                                        product["id"]
                                     }">Edit</a>
-                                    <a href="#" class="btn btn-danger">Delete</a>
+                                    <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal-${
+                                        product["id"]
+                                    }">Delete</a>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="modal" id="editModal-${product['id']}">
+                    <div class="modal" id="editModal-${product["id"]}">
                         <div class="modal-dialog">
                             <div class="modal-content">
 
@@ -82,24 +85,24 @@ $(document).ready(function() {
                                 <div class="modal-body">
                                     <form method="POST" id="updateForm">
                                         <input type="hidden" value="${
-                                            product['id']
+                                            product["id"]
                                         }" id="id">
                                         <div class="form-group">
                                             <label for="name">Product Name</label>
                                             <input type="text" class="form-control" id="name" value="${
-                                                product['name']
+                                                product["name"]
                                             }">
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Description</label>
                                             <input type="text" class="form-control" id="description" value="${
-                                                product['description']
+                                                product["description"]
                                             }">
                                         </div>
                                         <div class="form-group">
                                             <label for="name">Price</label>
                                             <input type="text" class="form-control" id="price" value="${
-                                                product['price']
+                                                product["price"]
                                             }">
                                         </div>
                                         <div class="form-group">
@@ -115,11 +118,29 @@ $(document).ready(function() {
                                 </div>
                             </div>
                         </div>
-                    </div>
+					</div>
+
+					<div class="modal" id="deleteModal-${product["id"]}">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+
+                                <div class="modal-body">
+									<div class="text-center py-3" id="deleteProduct">
+										<h5>Are you sure you want to delete this product?</h5>
+									</div>
+									<div class="d-flex justify-content-around">
+                                        <input type="hidden" value="${product["id"]}" id="id">
+                                        <a href="#" class="btn btn-success" id="delete-btn">Yes</a>
+                                        <a href="#" class="btn btn-danger" data-dismiss="modal">No</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+					</div>
                 `;
             });
-            $('.products-1').append(result_1);
-            $('.products-2').append(result_2);
+            $(".products-1").append(result_1);
+            $(".products-2").append(result_2);
 
             // getCategories()
         });
@@ -130,24 +151,23 @@ $(document).ready(function() {
         $.ajax({
             url: getAllCategoryURL
         }).done(function(categories) {
-            let categories_options = '';
+            let categories_options = "";
 
             $.each(JSON.parse(categories), function(key, category) {
                 // console.log(category);
 
                 categories_options += `
-                    <option class="category-id" value="${category['id']}">${
-                    category['name']
+                    <option class="category-id" value="${category["id"]}">${
+                    category["name"]
                 }</option>
                 `;
             });
-            $('.select-options').append(categories_options);
+            $(".select-options").append(categories_options);
         });
     }
 
     // Update a single product
-    $('body').on('submit', '#updateForm', function(e) {
-
+    $("body").on("submit", "#updateForm", function(e) {
         e.preventDefault();
         let data = $(this).parent()["0"].children.updateForm;
         // console.log(data);
@@ -160,7 +180,7 @@ $(document).ready(function() {
         let category_id = data["4"].value;
 
         $.ajax({
-            method: 'POST',
+            method: "POST",
             url: updateProductURL,
             data: {
                 id: id,
@@ -175,7 +195,8 @@ $(document).ready(function() {
         });
     });
 
-    $('body').on('submit', '#addNewProductForm', function(e) {
+    // Create new product
+    $("body").on("submit", "#addNewProductForm", function(e) {
         e.preventDefault();
 
         let data = $(this).parent()["0"].children.addNewProductForm;
@@ -188,7 +209,7 @@ $(document).ready(function() {
         console.log(name);
 
         $.ajax({
-            method: 'POST',
+            method: "POST",
             url: createProductURL,
             data: {
                 name: name,
@@ -200,6 +221,25 @@ $(document).ready(function() {
             console.log(data);
             location.reload();
         });
+    });
+
+    // Delete product
+    $('body').on('click', '#delete-btn', function(e) {
+        e.preventDefault();
+
+        let del_id = $(this).parent()["0"].children["0"].value;
+        // console.log(del_id);
+
+        $.ajax({
+            method: "POST",
+            url: deleteProductURL,
+            data: {
+                del_id: del_id
+            }
+        }).done(function(data) {
+            console.log(data);
+            location.reload();
+        })
     })
 
     getProducts();

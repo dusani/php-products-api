@@ -1,6 +1,9 @@
 $(document).ready(function() {
-    let updateURL =
-        'http://localhost/products-api/api/product/update_product.php';
+    let getAllProductURL = 'http://localhost/products-api/api/product/read_all_products.php';
+    let createProductURL = 'http://localhost/products-api/api/product/create_product.php';
+    let updateProductURL = 'http://localhost/products-api/api/product/update_product.php';
+
+    let getAllCategoryURL = 'http://localhost/products-api/api/category/read_all_categories.php';
 
     // Redirect to products.html page
     $('#viewProducts').on('click', function(e) {
@@ -12,11 +15,10 @@ $(document).ready(function() {
         location.replace(url);
     });
 
-    // getProducts();
-
+    // Get all products
     function getProducts() {
         $.ajax({
-            url: 'http://localhost/products-api/api/product/read_all_products.php'
+            url: getAllProductURL
         }).done(function(products) {
             let result_1 = '';
             let result_2 = '';
@@ -126,7 +128,7 @@ $(document).ready(function() {
     // Get Categories
     function getCategories() {
         $.ajax({
-            url: 'http://localhost/products-api/api/category/read_all_categories.php'
+            url: getAllCategoryURL
         }).done(function(categories) {
             let categories_options = '';
 
@@ -143,12 +145,13 @@ $(document).ready(function() {
         });
     }
 
+    // Update a single product
     $('body').on('submit', '#updateForm', function(e) {
 
         e.preventDefault();
         let data = $(this).parent()["0"].children.updateForm;
-        console.log(data);
-        console.log(data["4"].value);
+        // console.log(data);
+        // console.log(data["4"].value);
 
         let id = data["0"].value;
         let name = data["1"].value;
@@ -158,7 +161,7 @@ $(document).ready(function() {
 
         $.ajax({
             method: 'POST',
-            url: updateURL,
+            url: updateProductURL,
             data: {
                 id: id,
                 name: name,
@@ -172,53 +175,32 @@ $(document).ready(function() {
         });
     });
 
-    // Get values from editModal
-    // $('#updateForm').on('submit', function(e) {
-    //     e.preventDefault();
-    //
-    //     let id = $('#id').val();
-    //     let name = $('#name').val();
-    //     let description = $('#description').val();
-    //     let price = $('#price').val();
-    //     let category_id = $('#category_id').val();
-    //     // console.log(category_id);
-    //     // console.log(id, name, description, price, category_id);
-    //
-    //     // editProduct(id, name, description, price, category_id);
-    //
-    // $.ajax({
-    //     method: 'POST',
-    //     url: 'http://localhost/products-api/api/product/update_product.php',
-    //     data: {
-    //         id: id,
-    //         name: name,
-    //         description: description,
-    //         price: price,
-    //         category_id: category_id
-    //     }
-    // }).done(function(product) {
-    //     console.log(data);
-    //     // location.reload();
-    // });
-    // });
+    $('body').on('submit', '#addNewProductForm', function(e) {
+        e.preventDefault();
 
-    // function editProduct(id, name, description, price, category_id) {
-    //     console.log(id, name, description, price, category_id);
-    //     $.ajax({
-    //         method: 'POST',
-    //         url: 'http://localhost/products-api/api/product/update_product.php',
-    //         data: {
-    //             id: id,
-    //             name: name,
-    //             description: description,
-    //             price: price,
-    //             category_id: category_id
-    //         }
-    //     }).done(function(product) {
-    //         // console.log(product);
-    //         location.reload();
-    //     });
-    // }
+        let data = $(this).parent()["0"].children.addNewProductForm;
+        console.log(data);
+        let name = data["0"].value;
+        let description = data["1"].value;
+        let price = data["2"].value;
+        let category_id = data["3"].value;
+
+        console.log(name);
+
+        $.ajax({
+            method: 'POST',
+            url: createProductURL,
+            data: {
+                name: name,
+                description: description,
+                price: price,
+                category_id: category_id
+            }
+        }).done(function(data) {
+            console.log(data);
+            location.reload();
+        });
+    })
 
     getProducts();
 

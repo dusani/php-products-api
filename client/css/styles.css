@@ -1,8 +1,9 @@
-html, body {
+/* body {
     height: 100%;
-}
+} */
 
-body {
+.main {
+    height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;

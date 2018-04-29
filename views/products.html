@@ -17,6 +17,24 @@
 
 <body>
     <div class="container">
+
+        <nav class="navbar navbar-expand-sm navbar-dark bg-primary mb-3">
+            <div class="container">
+                <a class="navbar-brand" href="../index.html">productsAPI</a>
+                <button class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Categories</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#" data-toggle="modal" data-target="#addModal">Add Product</a>
+                        </li class="nav-item">
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
         <div class="row mb-5">
             <div class="col-4">
                 <div class="list-group mb-5 products-1" id="list-tab" role="tablist"></div>
@@ -24,6 +42,44 @@
 
             <div class="col-8">
                 <div class="tab-content products-2" id="nav-tabContent"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="addModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <h2 class="modal-title">Add Product</h2>
+                    <button class="close" data-dismiss="modal">&times;</button>
+                </div>
+
+                <div class="modal-body">
+                    <form method="post" id="addNewProductForm">
+                        <div class="form-group">
+                            <label for="name">Product Name</label>
+                            <input type="text" class="form-control" id="name">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Description</label>
+                            <textarea class="form-control" id="description" rows="5" cols="80"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Price</label>
+                            <input type="text" class="form-control" id="price">
+                        </div>
+                        <div class="form-group">
+                            <label for="name">Category</label>
+                            <select class="form-control select-options" id="category_name">
+
+                            </select>
+                        </div>
+                        <div>
+                            <button type="submit" class="btn btn-primary">Add Product</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
